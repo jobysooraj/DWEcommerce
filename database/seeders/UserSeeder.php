@@ -17,25 +17,28 @@ class UserSeeder extends Seeder
         $adminRole = Role::firstOrCreate(['name' => 'admin']);
         $vendorRole = Role::firstOrCreate(['name' => 'vendor']);
         $customerRole = Role::firstOrCreate(['name' => 'customer']);
-        dd($adminRole);
+       
        $admin= User::create([
             'name' => 'Admin',
             'email' => 'admin@mailinator.com',
             'password' => bcrypt('Admin@DW'),
+            'role' => 'admin',
             
         ]);
-        $admin->assignRole($adminRole);
+        $admin->assignRole('admin');
         $vendor=User::create([
             'name' => 'Vendor',
             'email' => 'vendor@mailinator.com',
             'password' => bcrypt('Vendor@DW'),
+            'role' => 'vendor',
             
         ]);
-         $vendor->assignRole($vendorRole);
+         $vendor->assignRole($adminRole);
         $customer1=User::create([
             'name' => 'Customer 1',
             'email' => 'customer1@mailinator.com',
             'password' => bcrypt('Customer1@DW'),
+            'role' => 'customer',
             
         ]);
         $customer1->assignRole($customerRole);
@@ -43,6 +46,8 @@ class UserSeeder extends Seeder
             'name' => 'Customer 2',
             'email' => 'customer2@mailinator.com',
             'password' => bcrypt('Customer2@DW'),
+            'role' => 'customer',
+
             
         ]);
         $customer2->assignRole($customerRole);
