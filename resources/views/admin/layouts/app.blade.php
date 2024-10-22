@@ -53,6 +53,7 @@
 	</svg>
 	{{-- <script src="js/app.js"></script> --}}
 	<script src="{{ asset('theme/dist/js/app.js') }}"></script>
+	
 
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {

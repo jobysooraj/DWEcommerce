@@ -4,34 +4,33 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Product;
-use App\Http\Requests\ProductRequest;
-use App\Repositories\ProductRepositoryInterface;
+use App\Models\Vendor;
+use App\Http\Requests\StoreVendorRequest;
 use App\Repositories\VendorRepositoryInterface;
 use Yajra\DataTables\DataTables;
 
-class ProductController extends Controller
+
+class VendorController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    protected $productRepository;
     protected $vendorRepository;
 
-    public function __construct(ProductRepositoryInterface $productRepository,VendorRepositoryInterface $vendorRepository)
+    public function __construct(VendorRepositoryInterface $vendorRepository)
     {
-        $this->productRepository = $productRepository;
         $this->vendorRepository = $vendorRepository;
     }
- 
-    public function index(Request $request)    {
+    public function index(Request $request)
+    {
+        
         if ($request->ajax()) {
-            $products = Product::select('id', 'name', 'phone', 'email', 'address'); 
+            $vendors = Vendor::select('id', 'name', 'phone', 'email', 'address'); 
 
-            return DataTables::of($products)
-                ->addColumn('action', function ($product) {
-                    return '<a href="'.route('admin.product.edit', $product->id).'" class="btn btn-sm btn-primary">Edit</a>
-                            <form action="'.route('admin.product.destroy', $product->id).'" method="POST" style="display:inline;">
+            return DataTables::of($vendors)
+                ->addColumn('action', function ($vendor) {
+                    return '<a href="'.route('admin.vendor.edit', $vendor->id).'" class="btn btn-sm btn-primary">Edit</a>
+                            <form action="'.route('admin.vendor.destroy', $vendor->id).'" method="POST" style="display:inline;">
                                 '.csrf_field().'
                                 '.method_field('DELETE').'
                                 <button type="submit" class="btn btn-sm btn-danger">Delete</button>
@@ -39,7 +38,7 @@ class ProductController extends Controller
                 })
                 ->make(true);
         }
-        return view('product.index');
+        return view('vendors.index');
     }
 
     /**
@@ -47,19 +46,18 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $vendors = $this->vendorRepository->all();
-        return view('product.create',compact('vendors'));
+        return view('vendors.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ProductRequest $request)
+    public function store(StoreVendorRequest $request)
     {
-        dd("ghfgdfddfd");
-        $product = $this->productRepository->create($request->validated());
-        return redirect()->route('admin.product.index')->with('success', 'Product created successfully.');
+        $vendor = $this->vendorRepository->create($request->validated());
+        return redirect()->route('admin.vendor.index')->with('success', 'Vendor created successfully.');
     }
+
     /**
      * Display the specified resource.
      */

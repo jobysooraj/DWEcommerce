@@ -17,6 +17,7 @@ class RoleMiddleware
 
     {
         if (auth()->user() && auth()->user()->role == $role) {
+          
             return $next($request);
         }
     
