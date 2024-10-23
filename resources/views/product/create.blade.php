@@ -34,7 +34,7 @@
 
                         <div class="container mt-5">
                             <h2 class="mb-4">Product Form</h2>
-                            <form method="post" action="{{route('admin.product.store')}}">
+                            <form action="{{ route('product.store') }}" method="POST">
                                 @csrf
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Name</label>
@@ -43,14 +43,14 @@
                                 <div class="mb-3">
                                     <label for="vendor" class="form-label">vendor</label>
                                     <select class="form-control" id="vendor_name" name="vendor_name">
-                                    @foreach($vendors as $key => $vendor)
+                                        @foreach($vendors as $key => $vendor)
                                         <option value="{{$vendor->id}}">{{$vendor->name}}</option>
-                                    @endforeach
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="price" class="form-label">Price</label>
-                                    <input type="price" class="form-control" id="price" name="price" placeholder="Enter your price" required>
+                                    <input type="number" class="form-control" id="price" name="price" placeholder="Enter your price" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="description" class="form-label">Description</label>

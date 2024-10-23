@@ -15,4 +15,8 @@ class Vendor extends Model
         'email',
         'address',
     ];
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

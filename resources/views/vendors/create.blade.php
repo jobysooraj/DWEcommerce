@@ -34,7 +34,7 @@
 
                         <div class="container mt-5">
                             <h2 class="mb-4">Vendor Form</h2>
-                            <form method="post" action="{{route('admin.vendor.store')}}">
+                            <form method="post" action="{{route('vendors.store')}}">
                             @csrf
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Name</label>

@@ -27,17 +27,16 @@
                     <i class="align-middle me-2 fas fa-fw fa-file"></i> <span class="align-middle">Products</span>
                 </a>
                 <ul id="pages" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
-                    <li class="sidebar-item"><a class="sidebar-link" href="{{route('admin.product.index')}}">List</a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="{{route('product.index')}}">List</a></li>
                    
                 </ul>
             </li>
-            <li class="sidebar-item">
-                <a data-bs-target="#auth" data-bs-toggle="collapse" class="sidebar-link collapsed">
-                    <i class="align-middle me-2 fas fa-fw fa-sign-in-alt"></i> <span class="align-middle">Stock</span>
+           <li class="sidebar-item">
+                <a data-bs-target="#ui" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                    <i class="align-middle me-2 fas fa-fw fa-flask"></i> <span class="align-middle">Stock </span>
                 </a>
-                <ul id="auth" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
-                    <li class="sidebar-item"><a class="sidebar-link" href="pages-sign-in.html">Add stock
-                            </a></li>
+                <ul id="ui" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
+                    <li class="sidebar-item"><a class="sidebar-link" href="{{route('stock.index')}}">Lists</a></li>
                     
                 </ul>
             </li>
@@ -59,7 +58,7 @@
                     <i class="align-middle me-2 fas fa-fw fa-flask"></i> <span class="align-middle">Vendor </span>
                 </a>
                 <ul id="ui" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
-                    <li class="sidebar-item"><a class="sidebar-link" href="{{route('admin.vendor.index')}}">Lists</a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="{{route('vendor.index')}}">Lists</a></li>
                     
                 </ul>
             </li>

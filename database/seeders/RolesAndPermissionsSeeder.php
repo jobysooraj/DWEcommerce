@@ -15,51 +15,51 @@ class RolesAndPermissionsSeeder extends Seeder
     public function run(): void
     {
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
-   
 
+        // Define permissions
         $permissions = [
             // Vendor Permissions
             'create-vendors',
             'view-vendors',
             'edit-vendors',
             'delete-vendors',
-        
+
             // Product Permissions
             'create-any-product',
             'view-any-product',
             'edit-any-product',
             'delete-any-product',
-        
+
             // Stock Permissions
             'view-stock-any-product',
             'add-stock-for-any-product',
             'edit-stock-for-any-product',
             'delete-stock-for-any-product',
-            
+
             // Customer Permissions
             'create-customer',
             'view-customer',
             'edit-customer',
             'delete-customer',
-        
+
             // Order Permissions
             'view-any-order',
             'edit-any-order',
             'delete-any-order',
             'manage-order-status',
-        
+
             // Vendor Permissions
             'create-own-product',
             'view-own-product',
             'edit-own-product',
             'delete-own-product',
-        
+
             'view-stock-for-own-product',
             'add-stock-for-own-product',
             'edit-stock-for-own-product',
             'delete-stock-for-own-product',  
             'update-own-order-status',
-        
+
             // General Customer Permissions
             'view-products',
             'view-product-details',
@@ -71,17 +71,22 @@ class RolesAndPermissionsSeeder extends Seeder
             'view-own-orders',
             'cancel-own-order',
         ];
-        
+
         // Create permissions if they do not exist
         foreach ($permissions as $permission) {
             Permission::firstOrCreate(['name' => $permission]);
+            // Debugging output
+            echo "Permission '$permission' created or already exists.\n";
         }
-        
+
         // Create roles
         $adminRole = Role::firstOrCreate(['name' => 'admin']);
         $vendorRole = Role::firstOrCreate(['name' => 'vendor']);
         $customerRole = Role::firstOrCreate(['name' => 'customer']);
-        
+
+        // Debugging output
+        echo "Roles created: admin, vendor, customer\n";
+
         // Assign permissions to roles
         $adminRole->givePermissionTo([
             'create-vendors',
@@ -105,7 +110,10 @@ class RolesAndPermissionsSeeder extends Seeder
             'delete-any-order',
             'manage-order-status',
         ]);
-        
+
+        // Debugging output
+        echo "Permissions assigned to admin role.\n";
+
         $vendorRole->givePermissionTo([
             'create-own-product',
             'view-own-product',
@@ -118,7 +126,10 @@ class RolesAndPermissionsSeeder extends Seeder
             'view-own-orders',
             'update-own-order-status',
         ]);
-        
+
+        // Debugging output
+        echo "Permissions assigned to vendor role.\n";
+
         $customerRole->givePermissionTo([
             'view-products',
             'view-product-details',
@@ -130,5 +141,8 @@ class RolesAndPermissionsSeeder extends Seeder
             'view-own-orders',
             'cancel-own-order',
         ]);
+
+        // Debugging output
+        echo "Permissions assigned to customer role.\n";
     }
 }

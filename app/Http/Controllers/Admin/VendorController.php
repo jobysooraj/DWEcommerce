@@ -22,8 +22,7 @@ class VendorController extends Controller
         $this->vendorRepository = $vendorRepository;
     }
     public function index(Request $request)
-    {
-        
+    {        
         if ($request->ajax()) {
             $vendors = Vendor::select('id', 'name', 'phone', 'email', 'address'); 
 
@@ -55,7 +54,7 @@ class VendorController extends Controller
     public function store(StoreVendorRequest $request)
     {
         $vendor = $this->vendorRepository->create($request->validated());
-        return redirect()->route('admin.vendor.index')->with('success', 'Vendor created successfully.');
+        return redirect()->route('vendors.index')->with('success', 'Vendor created successfully.');
     }
 
     /**

@@ -34,7 +34,7 @@
                             </div>
                         </div>
                         <h5 class="card-title mb-0">Product</h5>
-                            <a href="{{ route('admin.product.create') }}" class="btn btn-primary">Add Product</a>
+                            <a href="{{ route('product.create') }}" class="btn btn-primary">Add Product</a>
 
                     </div>
                     <table id="datatables-dashboard-products" class="table table-striped my-0">
@@ -63,23 +63,22 @@
 
     <script>
        $(document).ready(function() {
-    $('#datatables-dashboard-products').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: {
-            url: '{{ route('admin.product.index') }}', // URL to fetch data
-            type: 'GET',
-        },
-        columns: [
-            { data: 'name', name: 'name' },
-            { data: 'vendor', name: 'vendor' },
-            { data: 'price', name: 'price' },
-            { data: 'description', name: 'description' },
-            { data: 'action', name: 'action', orderable: false, searchable: false },
-        ],
-        // Additional configuration options can go here
+        $('#datatables-dashboard-products').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: '{{ route('product.index') }}', // Ensure this route is correct
+                type: 'GET',
+            },
+            columns: [
+                { data: 'name', name: 'name' },
+                { data: 'vendor.name', name: 'vendor.name' }, // Accessing related vendor's name
+                { data: 'price', name: 'price' },
+                { data: 'description', name: 'description' },
+                { data: 'action', name: 'action', orderable: false, searchable: false },
+            ]
+        });
     });
-});
 
     </script>
 @endsection

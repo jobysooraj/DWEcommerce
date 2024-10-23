@@ -26,12 +26,12 @@ class ProductController extends Controller
  
     public function index(Request $request)    {
         if ($request->ajax()) {
-            $products = Product::select('id', 'name', 'phone', 'email', 'address'); 
+            $products = Product::with('vendor')->select('products.*'); // Assuming 'vendor' is a relationship
 
             return DataTables::of($products)
                 ->addColumn('action', function ($product) {
-                    return '<a href="'.route('admin.product.edit', $product->id).'" class="btn btn-sm btn-primary">Edit</a>
-                            <form action="'.route('admin.product.destroy', $product->id).'" method="POST" style="display:inline;">
+                    return '<a href="'.route('product.edit', $product->id).'" class="btn btn-sm btn-primary">Edit</a>
+                            <form action="'.route('product.destroy', $product->id).'" method="POST" style="display:inline;">
                                 '.csrf_field().'
                                 '.method_field('DELETE').'
                                 <button type="submit" class="btn btn-sm btn-danger">Delete</button>
@@ -39,6 +39,8 @@ class ProductController extends Controller
                 })
                 ->make(true);
         }
+
+    
         return view('product.index');
     }
 
@@ -58,7 +60,7 @@ class ProductController extends Controller
     {
         dd("ghfgdfddfd");
         $product = $this->productRepository->create($request->validated());
-        return redirect()->route('admin.product.index')->with('success', 'Product created successfully.');
+        return redirect()->route('product.index')->with('success', 'Product created successfully.');
     }
     /**
      * Display the specified resource.

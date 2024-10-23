@@ -16,6 +16,13 @@
 	<!-- <link href="css/dark.css" rel="stylesheet"> -->
 	<!-- <link href="css/light.css" rel="stylesheet"> -->
     <link href="{{asset('theme/dist/css/modern.css')}}" rel="stylesheet"> 
+	<!-- Load jQuery first -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Then load DataTables -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+
 	<!-- BEGIN SETTINGS -->
 	<!-- You can remove this after picking a style -->
 	<style>
@@ -24,7 +31,7 @@
 		}
 	</style>
 	{{-- <script src="js/settings.js"></script> --}}
-	<script src="{{ asset('theme/dist/js/settings.js') }}"></script>
+	{{-- <script src="{{ asset('theme/dist/js/settings.js') }}"></script> --}}
 	<!-- END SETTINGS -->
 </head>
 

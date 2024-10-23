@@ -34,7 +34,7 @@
                             </div>
                         </div>
                         <h5 class="card-title mb-0">Vendors</h5>
-                            <a href="{{ route('admin.vendor.create') }}" class="btn btn-primary">Add Vendor</a>
+                            <a href="{{ route('vendors.create') }}" class="btn btn-primary">Add Vendor</a>
 
                     </div>
                     <table id="datatables-dashboard-vendors" class="table table-striped my-0">
@@ -67,7 +67,7 @@
         processing: true,
         serverSide: true,
         ajax: {
-            url: '{{ route('admin.vendor.index') }}', // URL to fetch data
+            url: '{{ route('vendors.index') }}', // URL to fetch data
             type: 'GET',
         },
         columns: [
