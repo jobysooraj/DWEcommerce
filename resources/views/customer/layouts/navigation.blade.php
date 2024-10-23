@@ -13,10 +13,10 @@
         <a href="" class="m-4 fs-2 fw-bold">Contact</a>
     </div>
     <div class="mr-5">
-        <button type="button" class="btn buttonHeadIcon"> <i class="bi bi-cart"></i> </button>
-        <button type="button" class="btn buttonHeadIcon "> <i class="bi bi-search"></i></button>
-        <button type="button" class="btn buttonHeadIcon"> <i class="bi bi-heart heart-icon"></i></button>
-        <button type="button" class="btn buttonHeadIcon"> <i class="bi bi-person profile-icon"></i></button>
+       <a href="#"><button type="button" class="btn buttonHeadIcon"> <i class="bi bi-cart"></i> </button></a>
+
+        <a href="{{ route('login') }}"> <button type="button" class="btn buttonHeadIcon"> <i class="bi bi-people profile-icon"></i></button></a>
+        <a href="{{ route('register') }}"> <button type="button" class="btn buttonHeadIcon"> <i class="bi bi-person profile-icon"></i></button></a>
     </div>
 
 </nav>
