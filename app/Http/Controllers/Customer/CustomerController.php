@@ -14,7 +14,7 @@ class CustomerController extends Controller
     public function index()
     {
         $products=Product::get();
-        return view('customer.index',['products'=>$products]);
+        return view('customer.home',['products'=>$products]);
     }
 
     /**
@@ -64,4 +64,5 @@ class CustomerController extends Controller
     {
         //
     }
+    
 }

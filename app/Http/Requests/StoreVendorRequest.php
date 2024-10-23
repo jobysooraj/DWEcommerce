@@ -22,11 +22,11 @@ class StoreVendorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
+        'name' => 'required|string|max:255',
         'phone' => 'required|string|max:20',
         'email' => 'required|email|max:255|unique:users,email', // Ensure the email is unique
         'password' => 'required', 
-        'role' => 'required',
+        
         ];
     }
     
@@ -40,7 +40,6 @@ class StoreVendorRequest extends FormRequest
         'email.unique' => 'The email has already been taken.',
         'password.required' => 'A password is required.',
         'password.min' => 'Password must be at least 8 characters.', // Adjust this message
-        'role.required' => 'The role is required.',
         ];
     }
 }

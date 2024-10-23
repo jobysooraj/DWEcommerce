@@ -34,8 +34,11 @@ class AuthenticatedSessionController extends Controller
         if ($request->user()->hasRole('vendor')) {
             return redirect()->route('dealer.dashboard');
         }
+        if ($request->user()->hasRole('customer')) {
+            return redirect()->route('home.index');
+        }
     
-        return redirect()->route('user.dashboard');
+        return redirect()->route('dashboard');
     }
 
     /**

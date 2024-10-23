@@ -35,14 +35,14 @@
                         <div class="container mt-5">
                             <h2 class="mb-4">Vendor Form</h2>
                             <form method="post" action="{{route('vendors.store')}}">
-                            @csrf
+                                @csrf
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Name</label>
                                     <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="phone" class="form-label">Phone</label>
-                                    <input type="text" class="form-control" id="phone"  name="phone" placeholder="Enter your phone number" required>
+                                    <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter your phone number" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email</label>
@@ -50,7 +50,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Password</label>
-<input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Save</button>
                             </form>

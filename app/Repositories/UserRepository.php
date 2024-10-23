@@ -18,22 +18,16 @@ class UserRepository implements UserRepositoryInterface
 
     public function create(array $data)
     {
-        dd("Sdsdsdds");
         $data['status'] = 'active'; 
         $data['role'] = 'vendor';
-        try {
-            // Create user
+       
             $user = User::create($data);
             // Assign vendor role
-            // $user->assignRole('vendor');
+            $user->assignRole('vendor');
 
             return $user; // Return the user object
 
-        } catch (\Exception $e) {
-            // Log the error message
-            Log::error('Error creating user: ' . $e->getMessage());
-            throw new \Exception('Failed to create vendor user.');
-        }
+       
     }
 
     public function update($id, array $data)

@@ -21,9 +21,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 Route::middleware(['auth', 'role:admin'])->group(function () {
     // Admin dashboard
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
@@ -68,7 +68,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 
 });
-Route::group(['middleware' => ['role:vendor']], function () {
+Route::middleware(['auth','role:vendor'])->group(function () {
     Route::get('/dealer/dashboard', [VendorDealers::class, 'index'])->name('dealer.dashboard');
 
     Route::get('vendor/product/index', [VendorProduct::class,'index'])->name('vendor.product.index');
@@ -89,8 +89,10 @@ Route::group(['middleware' => ['role:vendor']], function () {
 
 
 });
+Route::middleware(['auth','role:customer'])->group(function () {
+    Route::get('home', [CustomerHome::class,'index'])->name('home.index');
 
-Route::get('home', [CustomerHome::class,'index'])->name('customer.index');
+});
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
