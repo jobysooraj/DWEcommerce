@@ -12,7 +12,11 @@
 
       
 
-       
+       @if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
         <div class="row">
             <div class="col-12 col-lg-12 d-flex">
                 <div class="card flex-fill">
@@ -40,10 +44,10 @@
                     <table id="datatables-dashboard-vendors" class="table table-striped my-0">
                         <thead>
                             <tr>
-                                <th>Name</th>
+                                <th>#</th>
+                                <th  class="d-none d-xl-table-cell">Name</th>
                                 <th class="d-none d-xl-table-cell">Mobile</th>
                                 <th class="d-none d-xl-table-cell">Email</th>
-                                <th class="d-none d-xl-table-cell">Address</th>
                                 <th class="d-none d-xl-table-cell">Action</th>
                             </tr>
                         </thead>
@@ -59,27 +63,33 @@
     </div>
 </main>
 @endsection
-@section('scripts')
+@push('script')
 
     <script>
        $(document).ready(function() {
+           
+
     $('#datatables-dashboard-vendors').DataTable({
         processing: true,
         serverSide: true,
         ajax: {
-            url: '{{ route('vendors.index') }}', // URL to fetch data
+            url: '{{ route('vendor.index') }}', // URL to fetch data
             type: 'GET',
         },
         columns: [
+            { data: null, orderable: false, searchable: false }, // Serial number column
             { data: 'name', name: 'name' },
             { data: 'phone', name: 'phone' },
             { data: 'email', name: 'email' },
-            { data: 'address', name: 'address' },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],
+        createdRow: function(row, data, dataIndex) {
+            // Set the serial number in the first column
+            $('td:eq(0)', row).html(dataIndex + 1); // 1-based index for serial number
+        }
         // Additional configuration options can go here
     });
 });
 
     </script>
-@endsection
+@endpush

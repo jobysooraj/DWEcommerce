@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Models\Vendor;
+use App\Models\User;
 
-interface VendorRepositoryInterface
+interface UserRepositoryInterface
 {
     public function all();
     public function find($id);

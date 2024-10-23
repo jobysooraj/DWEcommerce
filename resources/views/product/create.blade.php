@@ -34,7 +34,7 @@
 
                         <div class="container mt-5">
                             <h2 class="mb-4">Product Form</h2>
-                            <form action="{{ route('product.store') }}" method="POST">
+                            <form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Name</label>
@@ -42,7 +42,10 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="vendor" class="form-label">vendor</label>
-                                    <select class="form-control" id="vendor_name" name="vendor_name">
+
+                                    <select class="form-control" id="vendor_id" name="vendor_id">
+                                        <option value="#">Choose One</option>
+
                                         @foreach($vendors as $key => $vendor)
                                         <option value="{{$vendor->id}}">{{$vendor->name}}</option>
                                         @endforeach
@@ -55,6 +58,10 @@
                                 <div class="mb-3">
                                     <label for="description" class="form-label">Description</label>
                                     <textarea class="form-control" id="description" name="description" rows="3" placeholder="Your description here" required></textarea>
+                                </div>
+                                <div>
+                                    <label for="image">Product Image:</label>
+                                    <input type="file" id="image" name="image" accept="image/*" required>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Save</button>
                             </form>

@@ -3475,7 +3475,7 @@ div#accordionExample>div {
 
 /* footer bottom */
 .footer-item.has-desc p {
-  color: #ffffff;
+  color: #706c6c;
   line-height: 25.2px;
 }
 
@@ -3488,12 +3488,12 @@ div#accordionExample>div {
   font-size: 14px;
   line-height: 25px;
   font-weight: 400;
-  color: #ffffff;
+  color: #706c6c;
   display: block;
 }
 
 .footer a.title {
-  color:white;
+  color: #000;
   cursor: auto;
   font-size: 12.992px;
   line-height: 15.5904px;
@@ -3503,11 +3503,11 @@ div#accordionExample>div {
 }
 
 .footer-menu ul li a:hover {
-  color: #ffffff;
+  color: #24699e;
 }
 
 .footer-menu ul li a.title:hover {
-  color: #ffffff;
+  color: #24699e;
 }
 
 /* footer subscribe form */

@@ -23,8 +23,10 @@ class StoreVendorRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'phone' => 'required|string|max:20',
-            'email' => 'required|email|unique:vendors,email|max:255',
+        'phone' => 'required|string|max:20',
+        'email' => 'required|email|max:255|unique:users,email', // Ensure the email is unique
+        'password' => 'required', 
+        'role' => 'required',
         ];
     }
     
@@ -32,11 +34,13 @@ class StoreVendorRequest extends FormRequest
     {
         return [
             'name.required' => 'The name field is required.',
-            'phone.required' => 'The phone number is required.',
-            'email.required' => 'The email address is required.',
-            'email.email' => 'The email address must be a valid email format.',
-            'email.unique' => 'The email has already been taken.',
-            // Add more custom messages as needed
+        'phone.required' => 'The phone number is required.',
+        'email.required' => 'The email address is required.',
+        'email.email' => 'The email address must be a valid email format.',
+        'email.unique' => 'The email has already been taken.',
+        'password.required' => 'A password is required.',
+        'password.min' => 'Password must be at least 8 characters.', // Adjust this message
+        'role.required' => 'The role is required.',
         ];
     }
 }

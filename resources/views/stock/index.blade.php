@@ -11,7 +11,11 @@
         </div>
 
       
-
+ @if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
        
         <div class="row">
             <div class="col-12 col-lg-12 d-flex">
@@ -40,12 +44,13 @@
                     <table id="datatables-dashboard-products" class="table table-striped my-0">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th class="d-none d-xl-table-cell">Vendor</th>
+                                <th>#</th>
                                 <th class="d-none d-xl-table-cell">Product</th>
+                                <th class="d-none d-xl-table-cell">Vendor</th>
                                 <th class="d-none d-xl-table-cell">Product Price</th>
                                 <th class="d-none d-xl-table-cell">Total Stock</th>
                                 <th class="d-none d-xl-table-cell">Balance Stock</th>
+                                <th class="d-none d-xl-table-cell">Total Stock Price</th>
                                 <th class="d-none d-xl-table-cell">Balance Stock Price</th>
                                 <th class="d-none d-xl-table-cell">Action</th>
                             </tr>
@@ -62,7 +67,7 @@
     </div>
 </main>
 @endsection
-@section('scripts')
+@push('script')
 
     <script>
        $(document).ready(function() {
@@ -79,14 +84,21 @@
                 type: 'GET',
             },
             columns: [
+            { data: null, orderable: false, searchable: false }, // Serial number column
                 { data: 'name', name: 'name' },
                 { data: 'product.vendor.name', name: 'product.vendor.name' },
                 { data: 'product.price', name: 'product.price' },
-                { data: 'total_stock', name: 'total_stock' },
-                { data: 'balance_stock', name: 'balance_stock' },
+                { data: 'total_quantity', name: 'total_quantity' },
+                { data: 'balance_quantity', name: 'balance_quantity' },
+                { data: 'total_quantity_price', name: 'total_quantity_price' },
+                { data: 'balance_quantity_price', name: 'balance_quantity_price' },
                 { data: 'action', name: 'action', orderable: false, searchable: false },
             ],
+            createdRow: function(row, data, dataIndex) {
+            // Set the serial number in the first column
+            $('td:eq(0)', row).html(dataIndex + 1); // 1-based index for serial number
+        }
         });
     });
     </script>
-@endsection
+@endpush

@@ -49,7 +49,7 @@
                     <i class="align-middle me-2 fas fa-fw fa-flask"></i> <span class="align-middle">User </span>
                 </a>
                 <ul id="ui" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
-                    <li class="sidebar-item"><a class="sidebar-link" href="ui-alerts.html">Lists</a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="{{route('customer.index')}}">Lists</a></li>
                     
                 </ul>
             </li>

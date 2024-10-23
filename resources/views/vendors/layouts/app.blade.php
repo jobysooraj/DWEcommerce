@@ -17,7 +17,6 @@
     <!-- <link href="css/light.css" rel="stylesheet"> -->
     <link href="{{asset('theme/dist/css/light.css')}}" rel="stylesheet">
 
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 
     <!-- BEGIN SETTINGS -->
     <!-- You can remove this after picking a style -->
@@ -29,7 +28,6 @@
     </style>
     {{-- <script src="js/settings.js"></script> --}}
     <script src="{{ asset('theme/dist/js/settings.js') }}"></script>
-		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- END SETTINGS -->
 </head>
@@ -40,11 +38,11 @@
     </div>
 
     <div class="wrapper">
-        @include('vendor.layouts.sidebar')
+        @include('vendors.layouts.navbar')
         <div class="main">
-            @include('vendor.layouts.header')
+            @include('vendors.layouts.header')
             @yield('content')
-            @include('vendor.layouts.footer')
+            @include('vendors.layouts.footer')
         </div>
     </div>
 
@@ -58,8 +56,7 @@
     </svg>
     {{-- <script src="js/app.js"></script> --}}
     <script src="{{ asset('theme/dist/js/app.js') }}"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+@stack('script')
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Line chart

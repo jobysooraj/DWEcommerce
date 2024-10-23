@@ -5,7 +5,7 @@
 
         <div class="header">
             <h1 class="header-title">
-                Test
+                Admin
             </h1>
             <p class="header-subtitle">Your sales increased by 4.25% and revenue increased by 5.12%.</p>
         </div>
