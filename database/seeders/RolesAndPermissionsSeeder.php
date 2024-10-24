@@ -6,12 +6,18 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use App\Repositories\PermissionRepositoryInterface;
+
 
 class RolesAndPermissionsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
+    protected $permissionRepository;
+    public function __construct(PermissionRepositoryInterface $permissionRepository) {
+        $this->permissionRepository = $permissionRepository;
+    }
     public function run(): void
     {
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
@@ -74,9 +80,8 @@ class RolesAndPermissionsSeeder extends Seeder
 
         // Create permissions if they do not exist
         foreach ($permissions as $permission) {
-            Permission::firstOrCreate(['name' => $permission]);
-            // Debugging output
-            echo "Permission '$permission' created or already exists.\n";
+            // Permission::firstOrCreate(['name' => $permission]);
+            $this->permissionRepository->create(['name' => $permission]);
         }
 
         // Create roles
@@ -107,8 +112,7 @@ class RolesAndPermissionsSeeder extends Seeder
             'manage-order-status',
         ]);
 
-        // Debugging output
-        echo "Permissions assigned to admin role.\n";
+       
 
         $vendorRole->givePermissionTo([
             'create-own-product',
@@ -123,8 +127,7 @@ class RolesAndPermissionsSeeder extends Seeder
             'update-own-order-status',
         ]);
 
-        // Debugging output
-        echo "Permissions assigned to vendor role.\n";
+      
 
         $customerRole->givePermissionTo([
             'view-products',
@@ -138,7 +141,6 @@ class RolesAndPermissionsSeeder extends Seeder
             'cancel-own-order',
         ]);
 
-        // Debugging output
-        echo "Permissions assigned to customer role.\n";
+       
     }
 }

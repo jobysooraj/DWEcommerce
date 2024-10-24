@@ -45,6 +45,7 @@
                                         @endforeach
                                     </select>
                                 </div>
+                               
                                 <div class="mb-3">
                                     <label for="quantity" class="form-label">Total Quantity</label>
                                     <input type="number" class="form-control" id="total_quantity" name="total_quantity" placeholder="Enter your Quantity number" required>

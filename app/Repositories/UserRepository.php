@@ -32,6 +32,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function update($id, array $data)
     {
+        
         $user = $this->find($id);
         $user->update($data);
         if (isset($data['role'])) {

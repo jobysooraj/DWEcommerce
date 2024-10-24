@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\VendorController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\StockController;
 use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\PermissionController;
 
 use App\Http\Controllers\Customer\CustomerController as CustomerHome;
 
@@ -45,7 +46,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('admin/vendor/store', [VendorController::class,'store'])->name('vendor.store');
     Route::get('admin/vendor/show/{id}', [VendorController::class,'show'])->name('vendor.show');
     Route::get('admin/vendor/{id}/edit', [VendorController::class,'edit'])->name('vendor.edit');
-    Route::put('admin/vendor/update/{id}', [VendorController::class,'update'])->name('vendor.update');
+    Route::put('admin/vendor/update/{vendor}', [VendorController::class,'update'])->name('vendor.update');
     Route::delete('admin/vendor/delete/{id}', [VendorController::class,'destroy'])->name('vendor.destroy');
 
 
@@ -66,6 +67,13 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
      Route::get('admin/customer/{id}/edit', [CustomerController::class,'edit'])->name('customer.edit');
      Route::put('admin/customer/update/{id}', [CustomerController::class,'update'])->name('customer.update');
      Route::delete('admin/customer/delete/{id}', [CustomerController::class,'destroy'])->name('customer.destroy');
+
+     Route::get('admin/permission/index', [PermissionController::class,'index'])->name('permission.index');
+     Route::get('admin/permission/{id}/edit', [PermissionController::class,'edit'])->name('permission.edit');
+     Route::put('admin/permission/update/{id}', [PermissionController::class,'update'])->name('permission.update');
+     Route::delete('admin/permission/delete/{id}', [PermissionController::class,'destroy'])->name('permission.destroy');
+     Route::get('admin/permission/show/{id}', [PermissionController::class,'show'])->name('permission.show');
+
 
 
 });

@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\Models\User;
 
 class StoreVendorRequest extends FormRequest
 {
@@ -21,12 +23,20 @@ class StoreVendorRequest extends FormRequest
      */
     public function rules(): array
     {
+       
         return [
         'name' => 'required|string|max:255',
         'phone' => 'required|string|max:20',
-        'email' => 'required|email|max:255|unique:users,email', // Ensure the email is unique
-        'password' => 'required',
-        'password_confirmation' => 'required|same:password',
+        'email' => [
+            'required',
+            'string',
+            'lowercase',
+            'email',
+            'max:255',
+            Rule::unique(User::class)->ignore($this->vendor), // If using vendor directly
+        ],
+        'password' => 'nullable',
+        'password_confirmation' => 'nullable|same:password',
         
         ];
     }

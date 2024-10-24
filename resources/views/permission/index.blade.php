@@ -5,9 +5,9 @@
 
         <div class="header">
             <h1 class="header-title">
-                Stock
+                Permission
             </h1>
-            <p class="header-subtitle">Stock List</p>
+            <p class="header-subtitle">Permission List</p>
         </div>
 
       
@@ -37,21 +37,15 @@
                                 </div>
                             </div>
                         </div>
-                        <h5 class="card-title mb-0">Stock</h5>
-                            <a href="{{ route('stock.create') }}" class="btn btn-primary">Add Stock</a>
+                       
 
                     </div>
-                    <table id="datatables-dashboard-products" class="table table-striped my-0">
+                    <table id="datatables-dashboard-permission" class="table table-striped my-0">
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th class="d-none d-xl-table-cell">Product</th>
-                                <th class="d-none d-xl-table-cell">Vendor</th>
-                                <th class="d-none d-xl-table-cell">Product Price</th>
-                                <th class="d-none d-xl-table-cell">Total Stock</th>
-                                <th class="d-none d-xl-table-cell">Balance Stock</th>
-                                <th class="d-none d-xl-table-cell">Total Stock Price</th>
-                                <th class="d-none d-xl-table-cell">Balance Stock Price</th>
+                                <th class="d-none d-xl-table-cell">User</th>
+                                <th class="d-none d-xl-table-cell">Role</th>
                                 <th class="d-none d-xl-table-cell">Action</th>
                             </tr>
                         </thead>
@@ -70,35 +64,31 @@
 @push('script')
 
     <script>
+
        $(document).ready(function() {
-           $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-        $('#datatables-dashboard-products').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: {
-                url: '{{ route('stock.index') }}',
-                type: 'GET',
-            },
-            columns: [
+    $('#datatables-dashboard-permission').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: '{{ route('permission.index') }}', // URL to fetch data
+            type: 'GET',
+        },
+        columns: [
             { data: null, orderable: false, searchable: false }, // Serial number column
-                { data: 'name', name: 'name' },
-                { data: 'vendor', name: 'vendor' },
-                { data: 'product.price', name: 'product.price' },
-                { data: 'total_quantity', name: 'total_quantity' },
-                { data: 'balance_quantity', name: 'balance_quantity' },
-                { data: 'total_quantity_price', name: 'total_quantity_price' },
-                { data: 'balance_quantity_price', name: 'balance_quantity_price' },
-                { data: 'action', name: 'action', orderable: false, searchable: false },
-            ],
-            createdRow: function(row, data, dataIndex) {
+
+            { data: 'user', name: 'user' },
+            { data: 'role', name: 'role' },
+            { data: 'action', name: 'action', orderable: false, searchable: false },
+        ],
+         createdRow: function(row, data, dataIndex) {
             // Set the serial number in the first column
             $('td:eq(0)', row).html(dataIndex + 1); // 1-based index for serial number
         }
-        });
+        // Additional configuration options can go here
     });
+    
+
+});
+
     </script>
 @endpush

@@ -8,6 +8,7 @@ use App\Models\Stock;
 use App\Http\Requests\StockRequest;
 use App\Repositories\StockRepositoryInterface;
 use App\Repositories\ProductRepositoryInterface;
+use App\Repositories\UserRepositoryInterface;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
 
@@ -15,17 +16,19 @@ class StockController extends Controller
 {
     protected $stockRepository;
     protected $productRepository;
+    protected $userRepository;
 
-    public function __construct(StockRepositoryInterface $stockRepository, ProductRepositoryInterface $productRepository)
+    public function __construct(StockRepositoryInterface $stockRepository, ProductRepositoryInterface $productRepository,UserRepositoryInterface $userRepository)
     {
         $this->stockRepository = $stockRepository;
         $this->productRepository = $productRepository;
+        $this->userRepository = $userRepository;
     }
 
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $stocks = Stock::with(['product', 'product.vendor'])->get();
+            $stocks = Stock::with(['product', 'vendor'])->get();
 
             return DataTables::of($stocks)
                 ->addColumn('action', function($row) {
@@ -41,6 +44,9 @@ class StockController extends Controller
                 })
                 ->editColumn('name', function($row) {
                     return $row->product->name;
+                })
+                ->editColumn('vendor', function($row) {
+                    return $row->vendor->name ?? '';
                 })
                 ->editColumn('total_quantity', function($row) {
                     return $row->total_quantity ?? '0.00';
@@ -69,28 +75,44 @@ class StockController extends Controller
     public function create()
     {
         $products = $this->productRepository->all();
-        return view('stock.create', ['products' => $products]);
+        $vendors = $this->userRepository->all();
+        return view('stock.create', ['products' => $products,'vendors'=>$vendors]);
     }
 
     public function store(StockRequest $request)
     {
+
         try {
             DB::beginTransaction();
-            $existingStock = $this->stockRepository->findByProductAndVendor($request->product_id, $request->vendor_id);
-
-            if ($existingStock) {
-                return redirect()->back()->withErrors(['error' => 'Stock entry for this product and vendor already exists.'])
-                                         ->withInput();
+    
+            $product = $this->productRepository->find($request->product_id);
+            $userId = $product->user_id;
+            $existingStock = $this->stockRepository->findByProductAndVendor($request->product_id,$product->user_id);
+           
+            if ($existingStock) {             
+               
+             
+                $total_quantity =$existingStock->total_quantity+ $request->total_quantity;
+              
+                // $existingStock->balance_quantity += $request->total_quantity;
+                $stockData = array_merge($request->validated(), ['user_id' => $userId,'total_quantity'=>$total_quantity,'balance_quantity'=>$total_quantity]);    
+             
+                $stock =$this->stockRepository->update($existingStock->id,$stockData);
+                
+                DB::commit();
+    
+                return redirect()->route('stock.index')->with('success', 'Stock updated successfully.');
+            } else {
+                $stockData = array_merge($request->validated(), ['user_id' => $userId]);
+                $stock = $this->stockRepository->create($stockData);
+    
+                DB::commit();
+    
+                return redirect()->route('stock.index')->with('success', 'Stock created successfully.');
             }
-            $stock = $this->stockRepository->create($request->validated());
-
-            DB::commit();
-
-            return redirect()->route('stock.index')->with('success', 'Stock created successfully.');
         } catch (\Exception $e) {
-            
             DB::rollBack();
-            return redirect()->back()->withErrors(['error' => 'Failed to create stock: ' . $e->getMessage()])
+            return redirect()->back()->withErrors(['error' => 'Failed to process stock: ' . $e->getMessage()])
                                      ->withInput();
         }
     }
@@ -111,7 +133,6 @@ class StockController extends Controller
     {
         try {
             DB::beginTransaction();
-
             $this->stockRepository->update($id, $request->validated());
 
             DB::commit();

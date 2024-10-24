@@ -27,6 +27,14 @@ class User extends Authenticatable
         'status',
     ];
 
+    public function isAdmin()
+    {
+        return $this->role === 'admin'; // Adjust this condition based on how your roles are structured
+    }
+    public function isVendor()
+    {
+        return $this->role === 'vendor'; // Checks if the role is vendor
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

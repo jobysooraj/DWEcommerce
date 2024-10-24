@@ -9,6 +9,8 @@ use App\Http\Requests\StoreVendorRequest;
 use App\Repositories\UserRepositoryInterface;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
+
 
 class VendorController extends Controller
 {
@@ -58,7 +60,11 @@ class VendorController extends Controller
 
             $user = $this->userRepository->create($request->validated());
             $user->assignRole('vendor');
-
+            $role = Role::findByName('vendor'); 
+           
+            $permissions = $role->permissions->pluck('name');
+           
+            $user->givePermissionTo($permissions);
             DB::commit();
 
             return redirect()->route('vendors.index')->with('success', 'Vendor created successfully.');
@@ -94,16 +100,30 @@ class VendorController extends Controller
      */
     public function update(StoreVendorRequest $request, $id)
     {
+        
         try {
             
             DB::beginTransaction();
+            $vendor = $this->userRepository->find($id);
+            
+            // Prepare the data for update
+            $data = $request->validated();
+           
+            // If no new password is provided, retain the old password
+            if (!$request->filled('password')) {
+                unset($data['password']); // Remove password from data if not filled
+            } else {
+                $data['password'] = bcrypt($request->password);
+            }
+         
 
-            $this->userRepository->update($id, $request->validated());
-
+            // Update vendor details
+            $this->userRepository->update($id, $data);
             DB::commit();
 
             return redirect()->route('vendors.index')->with('success', 'Vendor updated successfully.');
         } catch (\Exception $e) {
+            dd($e->getMessage());
             DB::rollBack();
             return redirect()->back()->withErrors(['error' => 'Failed to update vendor: ' . $e->getMessage()])
                                      ->withInput();

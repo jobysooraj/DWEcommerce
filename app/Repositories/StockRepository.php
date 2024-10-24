@@ -25,6 +25,7 @@ class StockRepository implements StockRepositoryInterface
     public function update($id, array $data)
     {
         $stock = $this->find($id);
+        $data['balance_quantity']=$data['total_quantity'];
         $stock->update($data);
         return $stock;
     }
