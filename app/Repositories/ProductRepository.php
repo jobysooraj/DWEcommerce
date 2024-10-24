@@ -20,9 +20,11 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function create(array $data)
     {
+        
         if (isset($data['image'])) {
             $data['image'] = $data['image']->store('products', 'public'); // Store the image
         }
+       
         return Product::create($data);
     }
 

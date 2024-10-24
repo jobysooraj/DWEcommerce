@@ -14,4 +14,6 @@ interface StockRepositoryInterface
     public function findByVendor(string $id, int $vendorId);
     public function updateByVendor(string $id, array $data, int $vendorId);
     public function deleteByVendor(string $id, int $vendorId);
+    public function findByProductAndVendor($productId, $vendorId);
+
 }

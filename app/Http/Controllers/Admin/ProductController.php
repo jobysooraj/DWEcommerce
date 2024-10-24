@@ -63,9 +63,12 @@ class ProductController extends Controller
 
     public function store(ProductRequest $request)
     {
+       
         try {
             DB::beginTransaction();
+           
             $product = $this->productRepository->create($request->validated());
+         
             DB::commit();
             return redirect()->route('product.index')->with('success', 'Product created successfully.');
         } catch (\Exception $e) {

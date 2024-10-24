@@ -76,7 +76,12 @@ class StockController extends Controller
     {
         try {
             DB::beginTransaction();
+            $existingStock = $this->stockRepository->findByProductAndVendor($request->product_id, $request->vendor_id);
 
+            if ($existingStock) {
+                return redirect()->back()->withErrors(['error' => 'Stock entry for this product and vendor already exists.'])
+                                         ->withInput();
+            }
             $stock = $this->stockRepository->create($request->validated());
 
             DB::commit();
