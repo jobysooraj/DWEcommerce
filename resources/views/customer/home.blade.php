@@ -1,5 +1,4 @@
 @extends('customer.layouts.app')
-
 <style>
     .spacing {
         letter-spacing: -1px;

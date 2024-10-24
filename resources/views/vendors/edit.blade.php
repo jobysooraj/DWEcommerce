@@ -50,10 +50,14 @@
                                     <label for="email" class="form-label">Email</label>
                                     <input type="email" class="form-control" id="email" name="email" value="{{$vendor->email}}" placeholder="Enter your email" required>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="address" class="form-label">Address</label>
-                                    <textarea class="form-control" id="address" name="address" rows="3" placeholder="Your address here" required> {{$vendor->address}}</textarea>
+                                {{-- <div class="mb-3">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
                                 </div>
+                                <div class="mb-3">
+                                    <label for="password_confirmation" class="form-label">Confirm Password</label>
+                                    <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Confirm your password" required>
+                                </div> --}}
                                 <button type="submit" class="btn btn-primary">Update</button>
                             </form>
                         </div>

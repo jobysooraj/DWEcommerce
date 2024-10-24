@@ -72,9 +72,11 @@ class RolesAndPermissionsSeeder extends Seeder
             'cancel-own-order',
         ];
 
+        // Create permissions if they do not exist
         foreach ($permissions as $permission) {
             Permission::firstOrCreate(['name' => $permission]);
-           
+            // Debugging output
+            echo "Permission '$permission' created or already exists.\n";
         }
 
         // Create roles
@@ -105,6 +107,8 @@ class RolesAndPermissionsSeeder extends Seeder
             'manage-order-status',
         ]);
 
+        // Debugging output
+        echo "Permissions assigned to admin role.\n";
 
         $vendorRole->givePermissionTo([
             'create-own-product',
@@ -119,7 +123,8 @@ class RolesAndPermissionsSeeder extends Seeder
             'update-own-order-status',
         ]);
 
-       
+        // Debugging output
+        echo "Permissions assigned to vendor role.\n";
 
         $customerRole->givePermissionTo([
             'view-products',
@@ -133,5 +138,7 @@ class RolesAndPermissionsSeeder extends Seeder
             'cancel-own-order',
         ]);
 
+        // Debugging output
+        echo "Permissions assigned to customer role.\n";
     }
 }

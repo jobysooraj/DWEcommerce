@@ -83,7 +83,7 @@ class VendorController extends Controller
      */
     public function edit(string $id)
     {
-        $user = $this->userRepository->find($id);  // Fetch the vendor using repository
+        $vendor = $this->userRepository->find($id);  // Fetch the vendor using repository
            // Fetch all vendors
         
         return view('vendors.edit', compact('vendor'));
