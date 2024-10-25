@@ -30,7 +30,8 @@ class VendorController extends Controller
             return DataTables::of($vendors)
                 ->addColumn('action', function ($vendor) {
                     return '<a href="'.route('vendor.edit', $vendor->id).'" class="btn btn-sm btn-primary">Edit</a>
-                            <form action="'.route('vendor.destroy', $vendor->id).'" method="POST" style="display:inline;">
+                          <a href="'.route('vendor.assignRole', $vendor->id).'" class="btn btn-sm btn-success">Assign Role</a>        
+                    <form action="'.route('vendor.destroy', $vendor->id).'" method="POST" style="display:inline;">
                                 '.csrf_field().'
                                 '.method_field('DELETE').'
                                 <button type="submit" class="btn btn-sm btn-danger">Delete</button>
@@ -147,6 +148,39 @@ class VendorController extends Controller
             DB::rollBack();
             return redirect()->back()->withErrors(['error' => 'Failed to delete vendor: ' . $e->getMessage()])
                                      ->withInput();
+        }
+    }
+    public function assignRole($id)
+    {
+        $customer = User::findOrFail($id);
+        $roles = Role::all(); // Fetch all roles
+
+        return view('customer.assignRole', compact('customer', 'roles'));
+    }
+
+    public function storeRole(Request $request, $id)
+    {
+        try {           
+            $request->validate([
+                'role' => 'required', // Ensure the role exists in the roles table
+            ]);
+    
+            $role = Role::findById($request->role);
+            // dd($role);
+            $customer = User::findOrFail($id); 
+            $customer->role=$role->name;
+            $customer->save();   
+            $customer->assignRole($request->role);
+           
+            if ($role) {
+                $permissions = $role->permissions()->pluck('id')->toArray();
+                $customer->syncPermissions($permissions);
+            }
+    
+            return redirect()->route('vendor.index')->with('success', 'Role and permissions assigned successfully.');
+        } catch (\Exception $e) {
+            // Handle the exception and return an error message
+            return redirect()->route('vendor.index')->with('error', 'Failed to assign role: ' . $e->getMessage());
         }
     }
 }

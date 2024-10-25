@@ -33,7 +33,7 @@
 
                     <div class="container mt-5">
                         <h2 class="mb-4">Permission Update Form</h2>
-                        <form action="{{ route('permission.update', $user->roles[0]->id) }}" method="POST">
+                        <form action="{{ route('permission.update', $role->id) }}" method="POST">
                             @csrf
                             @method('PUT')
 

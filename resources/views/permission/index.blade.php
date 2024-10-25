@@ -44,7 +44,7 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th class="d-none d-xl-table-cell">User</th>
+                              
                                 <th class="d-none d-xl-table-cell">Role</th>
                                 <th class="d-none d-xl-table-cell">Action</th>
                             </tr>
@@ -76,7 +76,7 @@
         columns: [
             { data: null, orderable: false, searchable: false }, // Serial number column
 
-            { data: 'user', name: 'user' },
+           
             { data: 'role', name: 'role' },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],

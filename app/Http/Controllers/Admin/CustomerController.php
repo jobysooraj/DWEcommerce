@@ -10,6 +10,8 @@ use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\CustomerRequest;
 use App\Repositories\CustomerRepositoryInterface;
+use Spatie\Permission\Models\Role; // Import Role model
+
 
 class CustomerController extends Controller
 {
@@ -35,7 +37,8 @@ class CustomerController extends Controller
             })
                 ->addColumn('action', function ($customer) {
                     return '<a href="'.route('customer.edit', $customer->id).'" class="btn btn-sm btn-primary">Edit</a>
-                            <form action="'.route('customer.destroy', $customer->id).'" method="POST" style="display:inline;">
+                                <a href="'.route('customer.assignRole', $customer->id).'" class="btn btn-sm btn-success">Assign Role</a>
+                    <form action="'.route('customer.destroy', $customer->id).'" method="POST" style="display:inline;">
                                 '.csrf_field().'
                                 '.method_field('DELETE').'
                                 <button type="submit" class="btn btn-sm btn-danger">Delete</button>
@@ -115,6 +118,39 @@ class CustomerController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->route('customer.index')->with('error', 'Error deleting customer: ' . $e->getMessage());
+        }
+    }
+    public function assignRole($id)
+    {
+        $customer = User::findOrFail($id);
+        $roles = Role::all(); // Fetch all roles
+
+        return view('customer.assignRole', compact('customer', 'roles'));
+    }
+
+    public function storeRole(Request $request, $id)
+    {
+        try {           
+            $request->validate([
+                'role' => 'required', // Ensure the role exists in the roles table
+            ]);
+    
+            $role = Role::findById($request->role);
+            // dd($role);
+            $customer = User::findOrFail($id); 
+            $customer->role=$role->name;
+            $customer->save();   
+            $customer->assignRole($request->role);
+           
+            if ($role) {
+                $permissions = $role->permissions()->pluck('id')->toArray();
+                $customer->syncPermissions($permissions);
+            }
+    
+            return redirect()->route('customer.index')->with('success', 'Role and permissions assigned successfully.');
+        } catch (\Exception $e) {
+            // Handle the exception and return an error message
+            return redirect()->route('customer.index')->with('error', 'Failed to assign role: ' . $e->getMessage());
         }
     }
 }

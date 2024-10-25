@@ -24,26 +24,24 @@ class PermissionController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $users = User::with('roles')->get();
-                       
-        return DataTables::of($users)
-            ->addColumn('user', function($permission) {
-                return $permission->name ?? 'N/A'; 
+            // $users = User::with('roles')->get();
+            $roles = Role::with('permissions')->get();        
+        return DataTables::of($roles)
+           
+            ->addColumn('role', function($role) {
+                return $role->name;
             })
-            ->addColumn('role', function($user) {
-                return $user->roles->pluck('name')->implode(', ') ?? 'No Role Assigned'; 
-            })
-            ->addColumn('action', function($permission) {
+            ->addColumn('action', function($role) {
                 // Add action buttons (edit, delete, etc.)
-                return '<a href="'.route('permission.edit', $permission->id).'" class="btn btn-sm btn-warning">Edit</a>
+                return '<a href="'.route('permission.edit', $role->id).'" class="btn btn-sm btn-warning">Assign Permission</a>';
                
-                <form action="' . route('permission.destroy', $permission->id) . '" method="POST" style="display:inline;">
-                ' . csrf_field() . '
-                ' . method_field('DELETE') . '
-                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-            </form>';
+            //     <form action="' . route('permission.destroy', $role->id) . '" method="POST" style="display:inline;">
+            //     ' . csrf_field() . '
+            //     ' . method_field('DELETE') . '
+            //     <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+            // </form>';
             })
-            ->rawColumns(['action']) // Allow raw HTML for action buttons
+            ->rawColumns(['action']) 
             ->make(true);
         }
        return view('permission.index');
@@ -78,16 +76,10 @@ class PermissionController extends Controller
      */
     public function edit(string $id)
     {
-        $user = User::with('roles')->findOrFail($id); // Retrieve the user and their roles
-    
-        // Get all permissions
+        $role = Role::findOrFail($id); 
         $allPermissions = $this->permissionRepository->listAll();
-        
-        // Get the user's assigned permissions
-        $userPermissions = $user->getAllPermissions()->pluck('name')->toArray(); // Get user's permissions
-    
-        // Pass user, all permissions, and user's permissions to the view
-        return view('permission.edit', compact('user', 'allPermissions', 'userPermissions'));
+        $userPermissions = $role->getAllPermissions()->pluck('name')->toArray(); 
+        return view('permission.edit', compact('role', 'allPermissions', 'userPermissions'));
     }
 
     /**
@@ -113,18 +105,10 @@ class PermissionController extends Controller
      */
     public function destroy(string $id)
     {
-        try {
-            // Find the user by ID
-            $user = User::findOrFail($id);
-            
-            // Get the role associated with the user
-            $role = $user->roles->first(); // Assumes the user has only one role
-    
-            if ($role) {
-                // Remove all permissions from the role if desired
+        try {           
+            $role = Role::findOrFail($id);    
+            if ($role) {              
                 $role->revokePermissionTo($role->permissions);
-    
-                // Detach the role from the user
                 $user->removeRole($role);
             }
             return redirect()->route('permission.index')->with('success', 'User role and permissions deleted successfully..');

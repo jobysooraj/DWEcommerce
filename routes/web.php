@@ -74,6 +74,12 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
      Route::delete('admin/permission/delete/{id}', [PermissionController::class,'destroy'])->name('permission.destroy');
      Route::get('admin/permission/show/{id}', [PermissionController::class,'show'])->name('permission.show');
 
+     Route::get('admin/customer/{id}/assign-role', [CustomerController::class, 'assignRole'])->name('customer.assignRole');
+    Route::post('admin/customer/{id}/store-role', [CustomerController::class, 'storeRole'])->name('customer.storeRole');
+
+    Route::get('admin/vendor/{id}/assign-role', [VendorController::class, 'assignRole'])->name('vendor.assignRole');
+    Route::post('admin/vendor/{id}/store-role', [VendorController::class, 'storeRole'])->name('vendor.storeRole');
+
 
 
 });
