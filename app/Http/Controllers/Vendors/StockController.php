@@ -84,16 +84,36 @@ class StockController extends Controller
 
     public function store(StockRequest $request)
     {
+       
         try {
-            DB::beginTransaction();
-            $data = $request->validated();
-            $this->stockRepository->create($data);
-            DB::commit();
-
-            return redirect()->route('vendor.stock.index')->with('success', 'Stock created successfully.');
+        DB::beginTransaction();
+    
+            $product = $this->productRepository->find($request->product_id);
+            $userId = $product->user_id;
+            $existingStock = $this->stockRepository->findByProductAndVendor($request->product_id,$product->user_id);
+         
+            if ($existingStock) {    
+                $total_quantity =$existingStock->total_quantity+ $request->total_quantity;
+              
+                // $existingStock->balance_quantity += $request->total_quantity;
+                $stockData = array_merge($request->validated(), ['user_id' => $userId,'total_quantity'=>$total_quantity,'balance_quantity'=>$total_quantity]);    
+                
+                $stock =$this->stockRepository->update($existingStock->id,$stockData);
+            
+                DB::commit();
+                return redirect()->route('vendor.stock.index')->with('success', 'Stock updated successfully.');
+            } else {
+                $stockData = array_merge($request->validated(), ['user_id' => $userId]);
+                $stock = $this->stockRepository->create($stockData);
+    
+                DB::commit();
+    
+                return redirect()->route('vendor.stock.index')->with('success', 'Stock created successfully.');
+            }
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->route('vendor.stock.index')->with('error', 'Error creating stock: ' . $e->getMessage());
+            return redirect()->back()->withErrors(['error' => 'Failed to process stock: ' . $e->getMessage()])
+                                     ->withInput();
         }
     }
 
@@ -123,7 +143,7 @@ class StockController extends Controller
     {
         try {
             DB::beginTransaction();
-            $this->stockRepository->deleteByVendor($id, auth()->id());
+            $this->stockRepository->delete($id);
             DB::commit();
 
             return redirect()->route('vendor.stock.index')->with('success', 'Stock deleted successfully.');

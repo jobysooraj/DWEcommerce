@@ -89,9 +89,7 @@ class StockController extends Controller
             $userId = $product->user_id;
             $existingStock = $this->stockRepository->findByProductAndVendor($request->product_id,$product->user_id);
            
-            if ($existingStock) {             
-               
-             
+            if ($existingStock) {    
                 $total_quantity =$existingStock->total_quantity+ $request->total_quantity;
               
                 // $existingStock->balance_quantity += $request->total_quantity;
